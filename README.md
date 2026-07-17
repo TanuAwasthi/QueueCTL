@@ -21,23 +21,13 @@ QueueCTL is a lightweight CLI-based background job queue system built with Node.
 1. Install Node.js 18+
 2. Clone the repository and enter the project folder
 3. Install dependencies (none are required beyond Node.js standard libraries)
-4. Make the CLI executable:
-
-```bash
-chmod +x bin/queuectl.js
-```
+4. Make the CLI executable
 
 ## Usage
 
 ### Enqueue a job
 
-```bash
-node bin/queuectl.js enqueue '{"id":"job1","command":"node -e \"process.exit(0)\""}'
 ```
-
-For PowerShell, use single quotes around the JSON payload and escape the inner quotes carefully:
-
-```powershell
 node .\bin\queuectl.js enqueue '{"id":"job1","command":"echo hello"}'
 ```
 
@@ -108,13 +98,5 @@ Record a short screen demo showing:
 - job processing and retry behavior
 - DLQ list and retry flow
 - status output
-
-For the failing-job example, use a simple command such as:
-
-```powershell
-node .\bin\queuectl.js enqueue '{"id":"job-fail","command":"node -e process.exit(1)"}'
-```
-
-Upload the recording to Google Drive, YouTube (unlisted), or a similar service, then add the public link below.
 
 Demo video link: https://your-demo-link-here
