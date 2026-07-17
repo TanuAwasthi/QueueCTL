@@ -4,7 +4,7 @@ const args = process.argv.slice(2);
 const engine = createQueueEngine({ dataDir: process.cwd() + "/data" });
 
 function formatJobAddedMessage(job) {
-  return `✅ Job added successfully\nJob ID: ${job.id}\nCommand: ${job.command}`;
+  return `Job added successfully\nJob ID: ${job.id}\nCommand: ${job.command}`;
 }
 
 function formatWorkerStartMessages(workers) {
@@ -13,7 +13,7 @@ function formatWorkerStartMessages(workers) {
   }
 
   const lines = workers.map((worker, index) => `worker ${index + 1} started`);
-  return ["✅ Workers started successfully", ...lines].join("\n");
+  return ["Workers started successfully", ...lines].join("\n");
 }
 
 function parsePayload(value) {
@@ -135,7 +135,16 @@ function parseObjectLikePayload(input) {
 
 function printHelp() {
   console.log(
-    `QueueCTL CLI\n\nCommands:\n  enqueue <json>              Add a job to the queue\n  list [--state <state>]      List jobs by state\n  status                      Show queue summary\n  worker start --count <n>    Start worker processes\n  worker stop                 Stop workers gracefully\n  dlq list                    List dead-letter queue entries\n  dlq retry <id>              Retry a DLQ job\n  config set <key> <value>    Update configuration\n  help                        Show this help\n\nExamples:\n  node .\\bin\\queuectl.js enqueue '{"id":"job1","command":"echo hello"}'`,
+    `QueueCTL CLI\n\nCommands:\n  enqueue <json>              
+    Add a job to the queue\n  list [--state <state>]      
+    List jobs by state\n  status                      
+    Show queue summary\n  worker start --count <n>    
+    Start worker processes\n  worker stop                 
+    Stop workers gracefully\n  dlq list                    
+    List dead-letter queue entries\n  dlq retry <id>              
+    Retry a DLQ job\n  config set <key> <value>    
+    Update configuration\n  help                        
+    Show this help\n\nExamples:\n  node .\\bin\\queuectl.js enqueue '{"id":"job1","command":"echo hello"}'`,
   );
 }
 
