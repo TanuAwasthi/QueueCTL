@@ -35,6 +35,12 @@ chmod +x bin/queuectl.js
 node bin/queuectl.js enqueue '{"id":"job1","command":"node -e \"process.exit(0)\""}'
 ```
 
+For PowerShell, use single quotes around the JSON payload and escape the inner quotes carefully:
+
+```powershell
+node .\bin\queuectl.js enqueue '{"id":"job1","command":"echo hello"}'
+```
+
 ### List pending jobs
 
 ```bash
@@ -92,4 +98,23 @@ npm test
 
 A short demo script is available in `scripts/demo.sh`.
 
-For the submission, add a public demo video or screen recording link here once it is uploaded to Google Drive or a similar hosting service.
+### Demo video
+
+Record a short screen demo showing:
+
+- enqueueing a successful job
+- enqueueing a failing job
+- starting workers
+- job processing and retry behavior
+- DLQ list and retry flow
+- status output
+
+For the failing-job example, use a simple command such as:
+
+```powershell
+node .\bin\queuectl.js enqueue '{"id":"job-fail","command":"node -e process.exit(1)"}'
+```
+
+Upload the recording to Google Drive, YouTube (unlisted), or a similar service, then add the public link below.
+
+Demo video link: https://your-demo-link-here
