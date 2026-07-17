@@ -58,7 +58,7 @@ function createQueueEngine(options = {}) {
     try {
       fs.rmSync(lock.lockPath, { force: true });
     } catch {
-      // ignore lock cleanup errors
+      console.error(`Failed to release processing lock at ${lock.lockPath}`);
     }
   }
 
