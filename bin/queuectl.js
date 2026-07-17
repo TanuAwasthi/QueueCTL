@@ -3,6 +3,19 @@ const { createQueueEngine } = require("../src/queue");
 const args = process.argv.slice(2);
 const engine = createQueueEngine({ dataDir: process.cwd() + "/data" });
 
+function formatJobAddedMessage(job) {
+  return `✅ Job added successfully\nJob ID: ${job.id}\nCommand: ${job.command}`;
+}
+
+function formatWorkerStartMessages(workers) {
+  if (!Array.isArray(workers) || workers.length === 0) {
+    return "No workers were started.";
+  }
+
+  const lines = workers.map((worker, index) => `worker ${index + 1} started`);
+  return ["✅ Workers started successfully", ...lines].join("\n");
+}
+
 function parsePayload(value) {
   if (typeof value !== "string") {
     throw new Error("A JSON payload is required");
@@ -137,7 +150,7 @@ async function main() {
       case "enqueue": {
         const payload = parsePayload(args[1]);
         const job = await engine.enqueue(payload);
-        console.log(JSON.stringify(job, null, 2));
+        console.log(formatJobAddedMessage(job));
         break;
       }
       case "list": {
@@ -157,8 +170,8 @@ async function main() {
         if (args[1] === "start") {
           const count = Number(args[3] || 1);
           const workers = await engine.startWorkers(count);
-          console.log(JSON.stringify(workers, null, 2));
-          console.log("Worker processes started. Press Ctrl+C to stop.");
+          console.log(formatWorkerStartMessages(workers));
+          console.log("Press Ctrl+C to stop.");
 
           process.on("SIGINT", async () => {
             console.log("\nGracefully stopping workers...");
@@ -208,4 +221,11 @@ async function main() {
   }
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = {
+  formatJobAddedMessage,
+  formatWorkerStartMessages
+};

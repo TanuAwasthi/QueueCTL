@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
 const { createQueueEngine, defaultConfig } = require('../src/queue');
+const { formatJobAddedMessage, formatWorkerStartMessages } = require('../bin/queuectl');
 
 test('enqueue and list jobs', async () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'queuectl-test-'));
@@ -34,4 +35,15 @@ test('successful job completes and failed job reaches DLQ after retries', async 
   assert.equal(second.state, 'dead');
   const deadJobs = await engine.listDLQ();
   assert.equal(deadJobs.length, 1);
+});
+
+test('formats friendly CLI output for add and worker start messages', () => {
+  const added = formatJobAddedMessage({ id: 'job-7', command: 'echo hello' });
+  assert.match(added, /Job added successfully/);
+  assert.match(added, /job-7/);
+
+  const workers = formatWorkerStartMessages([{ id: 'worker-1' }, { id: 'worker-2' }]);
+  assert.ok(workers.includes('worker 1 started'));
+  assert.ok(workers.includes('worker 2 started'));
+  assert.ok(workers.includes('started'));
 });
