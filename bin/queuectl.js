@@ -22,10 +22,9 @@ function parsePayload(value) {
   }
 
   let normalized = value.trim();
-  if (
-    (normalized.startsWith('"') && normalized.endsWith('"')) ||
-    (normalized.startsWith("'") && normalized.endsWith("'"))
-  ) {
+  if ((normalized.startsWith('"') && normalized.endsWith('"')) || 
+      (normalized.startsWith("'") && normalized.endsWith("'"))) 
+  {
     normalized = normalized.slice(1, -1).trim();
   }
 
@@ -119,11 +118,14 @@ function parseObjectLikePayload(input) {
     let parsedValue = rawValue.replace(/^['"]|['"]$/g, "");
     if (parsedValue === "true") {
       parsedValue = true;
-    } else if (parsedValue === "false") {
+    } 
+    else if (parsedValue === "false") {
       parsedValue = false;
-    } else if (parsedValue === "null") {
+    } 
+    else if (parsedValue === "null") {
       parsedValue = null;
-    } else if (/^-?\d+$/.test(parsedValue)) {
+    } 
+    else if (/^-?\d+$/.test(parsedValue)) {
       parsedValue = Number(parsedValue);
     }
 
@@ -188,10 +190,12 @@ async function main() {
             process.exit(0);
           });
           await new Promise(() => {});
-        } else if (args[1] === "stop") {
+        } 
+        else if (args[1] === "stop") {
           const workers = await engine.stopWorkers();
           console.log(JSON.stringify(workers, null, 2));
-        } else {
+        } 
+        else {
           throw new Error("Unknown worker command");
         }
         break;
